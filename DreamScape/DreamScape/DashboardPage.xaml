@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="DreamScape.DashboardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DreamScape"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <!-- SplitView for the main layout -->
+        <SplitView DisplayMode="Inline" IsPaneOpen="True">
+            <!-- Navigation Pane on the right -->
+            <SplitView.Pane>
+                <StackPanel>
+                    <Button Content="Profile" Click="NavButton_Click" Tag="Profile" />
+                    <Button Content="Inventory" Click="NavButton_Click" Tag="Inventory" />
+                    <Button Content="Trades" Click="NavButton_Click" Tag="Trades" />
+                    <Button Content="Logout" Click="NavButton_Click" Tag="Logout" />
+                </StackPanel>
+            </SplitView.Pane>
+
+            <!-- Main Content Area (Frame) -->
+            <SplitView.Content>
+                <Frame x:Name="MainFrame" />
+            </SplitView.Content>
+        </SplitView>
+    </Grid>
+</Window>
