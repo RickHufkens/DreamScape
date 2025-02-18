@@ -47,7 +47,7 @@ namespace DreamScape
                     break;
                 case "Logout":
                     // Handle logout logic (if needed)
-                    MainFrame.Navigate(typeof(LoginPage)); // Navigate back to the login page
+                    MainFrame.Navigate(typeof(Login)); // Navigate back to the login page
                     break;
             }
         }
