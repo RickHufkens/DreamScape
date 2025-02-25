@@ -17,5 +17,6 @@ namespace DreamScape.Data
         public User Sender { get; set; }
         public User Receiver { get; set; }
         public List<ItemTrade> ItemTrades { get; set; }
+        public Item Item { get; set; }
     }
 }
