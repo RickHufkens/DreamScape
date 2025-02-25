@@ -1,27 +1,15 @@
 using DreamScape.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 namespace DreamScape
 {
     public sealed partial class InventoryPage : Page
     {
-        // Simulated data for demo purposes
         private ObservableCollection<UserItem> UserItems;
 
         public InventoryPage()
@@ -30,31 +18,85 @@ namespace DreamScape
             LoadUserItems();
         }
 
-        // Load items for the logged-in user
         private void LoadUserItems()
         {
-            // Simulate getting the logged-in user's ID (this would normally come from the authentication system)
-            int loggedInUserId = 1; // Example user ID, replace with actual logged-in user ID
+            int loggedInUserId = MainWindow.LoggedInUserId; // Retrieve the logged-in user ID
 
-            // Simulate a list of items (replace this with actual data loading logic)
-            var allUserItems = GetUserItemsFromDatabase();
+            // Fetch user items from the database based on the logged-in user ID
+            using (var db = new AppDbContext())
+            {
+                var userItems = db.UserItems
+                    .Where(ui => ui.UserId == loggedInUserId)  // Filter based on logged-in user ID
+                    .Include(ui => ui.Item) // Include the item details (e.g., Name, Description, etc.)
+                    .ToList();
 
-            // Filter by the logged-in user's ID
-            UserItems = new ObservableCollection<UserItem>(allUserItems.Where(ui => ui.UserId == loggedInUserId));
+                // If no items found in the database, use test data (fallback)
+                if (!userItems.Any())
+                {
+                    // Add test items directly from the database if real data is unavailable
+                    var testItems = new List<UserItem>
+                    {
+                        new UserItem { Id = 1, UserId = loggedInUserId, ItemId = 1, Quantity = 3 },
+                        new UserItem { Id = 2, UserId = loggedInUserId, ItemId = 2, Quantity = 5 },
+                        new UserItem { Id = 3, UserId = loggedInUserId, ItemId = 3, Quantity = 2 },
+                        new UserItem { Id = 4, UserId = loggedInUserId, ItemId = 4, Quantity = 7 }
+                    };
 
-            // Bind the data to the ListView
-            InventoryListView.ItemsSource = UserItems;
+                    userItems = testItems;
+                }
+
+                // Map UserItems to an ObservableCollection for data binding
+                UserItems = new ObservableCollection<UserItem>(userItems);
+
+                // Dynamically update any dependent UI component (like ListView)
+                InventoryListView.ItemsSource = UserItems;
+            }
         }
 
-        // This is a placeholder for the database query (replace with actual database access)
-        private List<UserItem> GetUserItemsFromDatabase()
+        // Navigation methods
+        private void NavigateToInventory(object sender, RoutedEventArgs e)
         {
-            return new List<UserItem>
+            // Prevent navigating to the current page
+            if (this.Frame.CurrentSourcePageType == typeof(InventoryPage))
             {
-                new UserItem { Id = 1, UserId = 1, ItemId = 101, Quantity = 5, Item = new Item { Id = 101, Name = "Sword" } },
-                new UserItem { Id = 2, UserId = 1, ItemId = 102, Quantity = 3, Item = new Item { Id = 102, Name = "Shield" } },
-                new UserItem { Id = 3, UserId = 1, ItemId = 103, Quantity = 2, Item = new Item { Id = 103, Name = "Potion" } },
-            };
+                return; // Do nothing if already on this page
+            }
+
+            this.Frame.Navigate(typeof(InventoryPage));
+        }
+
+        private void NavigateToTrades(object sender, RoutedEventArgs e)
+        {
+            // Prevent navigating to the current page
+            if (this.Frame.CurrentSourcePageType == typeof(TradesPage))
+            {
+                return; // Do nothing if already on this page
+            }
+
+            this.Frame.Navigate(typeof(TradesPage));
+        }
+
+        private void NavigateToProfile(object sender, RoutedEventArgs e)
+        {
+            // Prevent navigating to the current page
+            if (this.Frame.CurrentSourcePageType == typeof(ProfilePage))
+            {
+                return; // Do nothing if already on this page
+            }
+
+            this.Frame.Navigate(typeof(ProfilePage));
+        }
+
+        private void NavigateToLogin(object sender, RoutedEventArgs e)
+        {
+            // Prevent navigating to the current page
+            if (this.Frame.CurrentSourcePageType == typeof(LoginPage))
+            {
+                return; // Do nothing if already on this page
+            }
+
+            // Log out logic here if needed
+            this.Frame.Navigate(typeof(LoginPage));
         }
     }
 }

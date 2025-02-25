@@ -7,17 +7,32 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
-        <!-- Inventory List -->
-        <ListView x:Name="InventoryListView">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="local:UserItem">
-                    <StackPanel>
-                        <TextBlock Text="{Binding Item.Name}" FontSize="18" />
-                        <TextBlock Text="{Binding Quantity}" FontSize="14" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+    <Grid Background="#F2F2F2">
+        <!-- SplitView layout for sidebar navigation -->
+        <SplitView DisplayMode="CompactInline" IsPaneOpen="True" Background="#F5F5B8">
+            <!-- Sidebar Pane -->
+            <SplitView.Pane>
+                <StackPanel  Background="#2E2E2E">
+                    <Button Content="Inventory" Click="NavigateToInventory" Background="#F5F5B8" Foreground="#333333" FontSize="16" Height="40" Margin="10" BorderBrush="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="SemiBold" Padding="10"/>
+                    <Button Content="Trades" Click="NavigateToTrades" Background="#F5F5B8" Foreground="#333333" FontSize="16" Height="40" Margin="10" BorderBrush="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="SemiBold" Padding="10"/>
+                    <Button Content="Profile" Click="NavigateToProfile" Background="#F5F5B8" Foreground="#333333" FontSize="16" Height="40" Margin="10" BorderBrush="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="SemiBold" Padding="10"/>
+                    <Button Content="Log Out" Click="NavigateToLogin" Background="#F5F5B8" Foreground="#333333" FontSize="16" Height="40" Margin="10" BorderBrush="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="SemiBold" Padding="10"/>
+                </StackPanel>
+            </SplitView.Pane>
+
+            <!-- Main Content Area -->
+            <SplitView.Content>
+                <ListView x:Name="InventoryListView"  Background="#1F1F1F">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:UserItem">
+                            <StackPanel Background="#333333" BorderBrush="#F5F5B8" BorderThickness="2" CornerRadius="8" Padding="10" Margin="5">
+                                <TextBlock Text="{x:Bind Item.Name}" FontSize="18" FontWeight="SemiBold" Foreground="White"/>
+                                <TextBlock Text="{x:Bind Quantity}" FontSize="14" Foreground="#B0B0B0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </SplitView.Content>
+        </SplitView>
     </Grid>
 </Page>
