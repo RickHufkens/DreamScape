@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
@@ -13,9 +13,8 @@
     <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="DashboardPage.xaml" />
     <None Remove="InventoryPage.xaml" />
-    <None Remove="Login.xaml" />
+    <None Remove="LoginPage.xaml" />
     <None Remove="ProfilePage.xaml" />
     <None Remove="TradesPage.xaml" />
   </ItemGroup>
@@ -48,6 +47,11 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="LoginPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="TradesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -59,16 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="InventoryPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="DashboardPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Login.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
