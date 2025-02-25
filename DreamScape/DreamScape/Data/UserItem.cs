@@ -15,5 +15,6 @@ namespace DreamScape.Data
 
         public User User { get; set; }
         public Item Item { get; set; }
-    }   
+        public string RarityColor => Item?.Rarity?.Color;
+    }
 }
